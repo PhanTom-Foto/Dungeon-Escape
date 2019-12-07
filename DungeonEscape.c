@@ -3,6 +3,8 @@
 //  Copyright © 2019 DonaldTr4n. All rights reserved. //
 //***************************************************//
 
+///đề bài: https://drive.google.com/file/d/0ByJaz8MlpRsDelplS0tzT1E3WTA/view?usp=sharing
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -147,10 +149,11 @@ void vonglap() //lặp lại khi tìm được lối ra nhưng chưa có chìa k
 int main(void)
 {
     int m=4;
-    
+    //hỗ trợ random
     time_t t;
     srand((unsigned) time(&t));
     
+    //khởi tạo @map
     for(int i=0;i<m;i++)
     {
         for(int j=0;j<m; j++)
@@ -159,22 +162,24 @@ int main(void)
         }
     }
     
+    // random vị trí của P
     pX= rand()%(m);
     pY= rand()%(m);
     map[pY][pX]='P';
+    // random vị trí K
     do{
         kX= rand()%(m);
         kY= rand()%(m);
     } while (map[kY][kX] != '-');
     map[kX][kY]='K';
+    // random vị trí E
     do{
         eX= rand()%(m);
         eY= rand()%(m);
     } while (map[eY][eX] != '-');
     map[eY][eX]='E';
-    
-    //map_move();
-    
+
+    // chạy trương trình
     vonglap();
     if(check==1) printf("Da tim thay loi ra!\n");
     else if(check==0)
@@ -186,3 +191,7 @@ int main(void)
     }
     
 }
+
+// vẫn còn lỗi nhập dư dấu enter (bị hiện 2 dòng khi chạy vòng lặp)
+// vẫn còn lỗi khi ra cửa và không co chìa khóa => không hiện thông báo
+// vẫn còn lỗi khi đã nhận được chì khóa và ra được cửa nhưng => không hiện thông báo
