@@ -108,7 +108,7 @@ int main(void)
         map_move();
         if(map[pY][pX] == map[eY][eX])
         {
-            printf("Da tim loi ra");
+            printf("Da tim chia khoa");
             continue;
         }
     } while(map[pY][pX] != map[kY][kX]);
