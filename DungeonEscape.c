@@ -18,7 +18,7 @@ void p_move(char step) //di chuyển bằng các phím 'w a s d'
 {
     if (step == 'w')
     {
-        if(pY -1 <0) printf("Hay thu di huong khac!");
+        if(pY -1 <0) printf("Hay thu di huong khac! \n");
         else
         {
             map[pY][pX]='-';
@@ -26,10 +26,10 @@ void p_move(char step) //di chuyển bằng các phím 'w a s d'
             map[pY][pX]='P';
         }
     }
-    
+
     if (step == 's')
     {
-        if(pY +1 >3) printf("Hay thu di huong khac!");
+        if(pY +1 >3) printf("Hay thu di huong khac! \n");
         else
         {
             map[pY][pX]='-';
@@ -37,10 +37,10 @@ void p_move(char step) //di chuyển bằng các phím 'w a s d'
             map[pY][pX]='P';
         }
     }
-    
+
     if (step == 'a')
     {
-        if(pX -1<0) printf("Hay thu di huong khac! ");
+        if(pX -1<0) printf("Hay thu di huong khac! \n");
         else
         {
             map[pY][pX]='-';
@@ -48,10 +48,10 @@ void p_move(char step) //di chuyển bằng các phím 'w a s d'
             map[pY][pX]='P';
         }
     }
-    
+
     if (step == 'd')
     {
-        if(pX +1 >3) printf("Hay thu di huong khac! ");
+        if(pX +1 >3) printf("Hay thu di huong khac! \n");
         else
         {
             map[pY][pX]='-';
@@ -62,10 +62,10 @@ void p_move(char step) //di chuyển bằng các phím 'w a s d'
     if (map[pY][pX] == map[kY][kX]) //kiểm tra đã lấy chìa khóa hay chưa
     {
         check=1;
-        printf("Da tim thay chia khoa! ");
+        printf("Da tim thay chia khoa! \n");
     }
     else check=0;
-    
+
 }
 
 void p_return(char step) // CTCon lặp lại, CTC này ngược so với CTC @p_move
@@ -80,7 +80,7 @@ void p_return(char step) // CTCon lặp lại, CTC này ngược so với CTC @p
             map[pY][pX]='P';
         }
     }
-    
+
     if (step == 's')
     {
         if(pY -1 <0) printf("error");
@@ -91,10 +91,10 @@ void p_return(char step) // CTCon lặp lại, CTC này ngược so với CTC @p
             map[pY][pX]='P';
         }
     }
-    
+
     if (step == 'a')
     {
-        
+
         if(pX +1 >3) printf("error");
         else
         {
@@ -103,7 +103,7 @@ void p_return(char step) // CTCon lặp lại, CTC này ngược so với CTC @p
             map[pY][pX]='P';
         }
     }
-    
+
     if (step == 'd')
     {
         if(pX -1<0) printf("error");
@@ -136,7 +136,7 @@ void vonglap() //lặp lại khi tìm được lối ra nhưng chưa có chìa k
         scanf("%c",&step);
         fflush(stdin);
         p_move(step);
-        
+
     }while(map[pY][pX] != map[eY][eX]);
 }
 
@@ -152,7 +152,7 @@ int main(void)
     //hỗ trợ random
     time_t t;
     srand((unsigned) time(&t));
-    
+
     //khởi tạo @map
     for(int i=0;i<m;i++)
     {
@@ -161,7 +161,7 @@ int main(void)
             map[i][j]='-';
         }
     }
-    
+
     // random vị trí của P
     pX= rand()%(m);
     pY= rand()%(m);
@@ -189,9 +189,8 @@ int main(void)
         p_return(step);
         vonglap();
     }
-    
+
 }
 
-// vẫn còn lỗi nhập dư dấu enter (bị hiện 2 dòng khi chạy vòng lặp)
 // vẫn còn lỗi khi ra cửa và không co chìa khóa => không hiện thông báo
 // vẫn còn lỗi khi đã nhận được chì khóa và ra được cửa nhưng => không hiện thông báo
