@@ -14,6 +14,7 @@ int check=0;
 char map[4][4];
 char step;
 
+
 void p_move(char step) //di chuyển bằng các phím 'w a s d'
 {
     if (step == 'w')
@@ -59,13 +60,18 @@ void p_move(char step) //di chuyển bằng các phím 'w a s d'
             map[pY][pX]='P';
         }
     }
-    if (map[pY][pX] == map[kY][kX]) //kiểm tra đã lấy chìa khóa hay chưa
+
+
+}
+
+void check_k() //kiểm tra đã lấy chìa khóa hay chưa
+{
+    if (map[pY][pX] == map[kY][kX])
     {
         check=1;
         printf("Da tim thay chia khoa! \n");
-    }
-    else check=0;
 
+    }
 }
 
 void p_return(char step) // CTCon lặp lại, CTC này ngược so với CTC @p_move
@@ -136,6 +142,7 @@ void vonglap() //lặp lại khi tìm được lối ra nhưng chưa có chìa k
         scanf("%c",&step);
         fflush(stdin);
         p_move(step);
+        check_k();
 
     }while(map[pY][pX] != map[eY][eX]);
 }
@@ -171,7 +178,7 @@ int main(void)
         kX= rand()%(m);
         kY= rand()%(m);
     } while (map[kY][kX] != '-');
-    map[kX][kY]='K';
+    map[kY][kX]='K';
     // random vị trí E
     do{
         eX= rand()%(m);
@@ -181,10 +188,15 @@ int main(void)
 
     // chạy trương trình
     vonglap();
-    if(check==1) printf("Da tim thay loi ra!\n");
-    else if(check==0)
+    if(check==1)
+    {
+        map_move();
+        printf("Da tim thay loi ra!\n");
+    }
+    else
     {
         printf("Tim thay loi ra nhung chua co chia khoa\n");
+        printf("bien check %d\n",check);
         printf("\nNhap buoc di cua ban: \n");
         p_return(step);
         vonglap();
@@ -192,5 +204,4 @@ int main(void)
 
 }
 
-// vẫn còn lỗi khi ra cửa và không co chìa khóa => không hiện thông báo
-// vẫn còn lỗi khi đã nhận được chì khóa và ra được cửa nhưng => không hiện thông báo
+//chạy ổn nhưng dài quá :v
