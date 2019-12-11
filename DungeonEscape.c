@@ -12,7 +12,7 @@
 #include <conio.h>
 
 int pX,pY,kX,kY,eX,eY,check=0,error1=0;
-char step,map[4][4];
+char step,replay,map[4][4];
 
 void baoloi()
 {
@@ -72,6 +72,9 @@ void check_k() //kiểm tra đã lấy chìa khóa hay chưa
     {
         check=1;
         printf("\n Da tim thay chia khoa! \n");
+        //loại bỏ hoàn toàn vị trí của "K" - chìa khóa
+        kY=4;
+        kX=4;
 
     }
 }
@@ -159,23 +162,19 @@ void play()
     {
         map_move();
         printf(" Da tim thay loi ra!\n");
+        check = 0;
     } else {
         do{
         error1 = 2;//dùng biến error1 = 2 để kiểm tra lỗi tìm được lối ra nhưng không có chìa khóa
         p_return(step);
         vonglap();
-        if (check==1) return map_move(),printf(" Da tim thay loi ra!\n"),(void)0;
+        if (check==1) return map_move(),printf(" Da tim thay loi ra!\n"),check = 0,(void)0;
         }while(map[pY][pX] == map[eY][eX]);
     }
 }
-//******************************************************//
-//  Created by DonaldTram on 12/7/19.                  //
-//  Copyright © 2019 DonaldTr4n. All rights reserved. //
-//***************************************************//
-int main(void)
+
+void ve_map(int m)
 {
-    system("cls");
-    int m=4;
     //hỗ trợ random
     time_t t;
     srand((unsigned) time(&t));
@@ -200,8 +199,20 @@ int main(void)
         eY= rand()%(m);
     } while (map[eY][eX] != '-');
     map[eY][eX]='E';
+}
 
+//******************************************************//
+//  Created by DonaldTram on 12/7/19.                  //
+//  Copyright © 2019 DonaldTr4n. All rights reserved. //
+//***************************************************//
+int main(void)
+{
+    do{
+    system("cls");
+    ve_map(4);
     // chạy trương trình
     play();
-
+    printf("\n Ban co muon choi man moi? (y/n)\n");
+    replay = getch();
+    }while(replay == 'y');
 }
