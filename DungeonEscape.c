@@ -14,14 +14,10 @@
 int pX,pY,kX,kY,eX,eY,check=0,error1=0;
 char step,replay,map[4][4];
 
-void baoloi()
-{
-    printf(" Hay thu di huong khac! \n");
-}
-
+//*********************************************************************************
 void p_move(char step) //di chuyển bằng các phím 'w a s d'
 {
-    if (step == 'w')
+    if (step == 'w'||step == 'W')
     {
         if(pY -1 <0) error1=1;//dùng biến error1 =1 để kiểm tra lỗi ra ngoài map
         else
@@ -30,9 +26,8 @@ void p_move(char step) //di chuyển bằng các phím 'w a s d'
             pY--;// w là hướng lên trên nên trục Y trong mảng sẽ giảm
             map[pY][pX]='P';
         }
-    }
-
-    if (step == 's')
+    }//----------------------------------------------------------------------------
+    if (step == 's'||step == 'S')
     {
         if(pY +1 >3) error1=1;//dùng biến error1 =1 để kiểm tra lỗi ra ngoài map
         else
@@ -41,9 +36,8 @@ void p_move(char step) //di chuyển bằng các phím 'w a s d'
             pY++;// s hướng xuống dưới nên trục Y trong mảng sẽ tăng
             map[pY][pX]='P';
         }
-    }
-
-    if (step == 'a')
+    }//----------------------------------------------------------------------------
+    if (step == 'a'||step == 'A')
     {
         if(pX -1<0) error1=1;//dùng biến error1 =1 để kiểm tra lỗi ra ngoài map
         else
@@ -53,8 +47,8 @@ void p_move(char step) //di chuyển bằng các phím 'w a s d'
             map[pY][pX]='P';
         }
     }
-
-    if (step == 'd')
+    //----------------------------------------------------------------------------
+    if (step == 'd'||step == 'D')
     {
         if(pX +1 >3) error1=1;//dùng biến error1 =1 để kiểm tra lỗi ra ngoài map
         else
@@ -65,7 +59,7 @@ void p_move(char step) //di chuyển bằng các phím 'w a s d'
         }
     }
 }
-
+//*********************************************************************************
 void check_k() //kiểm tra đã lấy chìa khóa hay chưa
 {
     if (map[pY][pX] == map[kY][kX])
@@ -75,55 +69,38 @@ void check_k() //kiểm tra đã lấy chìa khóa hay chưa
         //loại bỏ hoàn toàn vị trí của "K" - chìa khóa
         kY=4;
         kX=4;
-
     }
 }
-
+//*********************************************************************************
 void p_return(char step) // CTCon lặp lại, CTC này ngược so với CTC @p_move
 {
-    if (step == 'w')
+    if (step == 'w'||step == 'W')
     {
-        if(pY +1 >3) printf("error");
-        else {
             map[pY][pX]='E';
             pY++;
             map[pY][pX]='P';
-        }
-    }
-
-    if (step == 's')
+    }//----------------------------------------------------------------------------
+    if (step == 's'||step == 'S')
     {
-        if(pY -1 <0) printf("error");
-        else {
             map[pY][pX]='E';
             pY--;
             map[pY][pX]='P';
-        }
-    }
-
-    if (step == 'a')
+    }//----------------------------------------------------------------------------
+    if (step == 'a'||step == 'A')
     {
-
-        if(pX +1 >3) printf("error");
-        else {
             map[pY][pX]='E';
             pX++;
             map[pY][pX]='P';
-        }
-    }
-
-    if (step == 'd')
+    }//----------------------------------------------------------------------------
+    if (step == 'd'||step == 'D')
     {
-        if(pX -1<0) printf("error");
-        else{
             map[pY][pX]='E';
             pX--;
             map[pY][pX]='P';
-        }
     }
 }
-
-void map_move() // CTC in ra map sau khi @p_move
+//*********************************************************************************
+void map_change() // CTC in ra map sau khi @p_move
 {
     for(int i=0;i<4;i++)
     {
@@ -136,16 +113,15 @@ void map_move() // CTC in ra map sau khi @p_move
         printf("\t\n");
     }
 }
-
+//*********************************************************************************
 void vonglap() //lặp lại khi tìm được lối ra nhưng chưa có chìa khóa
 {
     do{
-
-        map_move();
+        map_change();
         printf(" W(len) S(xuong) A(trai) D(phai)\n");
-        if (error1 == 1) printf("\n Hay thu di huong khac! \n");
-        if (error1 == 2) printf("\n Tim thay loi ra nhung chua co chia khoa\n");
         check_k();
+        if (error1 == 1) printf("\n Hay thu di huong khac! \n");
+        if (error1 == 2) printf("\n Ban can tim chia khoa truoc! \n");
         step = getch();
         printf("\n");
         fflush(stdin);
@@ -154,46 +130,37 @@ void vonglap() //lặp lại khi tìm được lối ra nhưng chưa có chìa k
         p_move(step);
     }while(map[pY][pX] != map[eY][eX]);
 }
-
+//*********************************************************************************
 void play()
 {
     vonglap();
-    if(check==1)
-    {
-        map_move();
-        printf(" Da tim thay loi ra!\n");
-        check = 0;
-    } else {
-        do{
-        error1 = 2;//dùng biến error1 = 2 để kiểm tra lỗi tìm được lối ra nhưng không có chìa khóa
+    while(1){
+        if (check==1) return map_change(), printf(" Da tim thay loi ra! \n"), check = 0,(void)0;
+        if (map[pY][pX] == map[eY][eX]) error1 = 2;//dùng biến error1 = 2 để kiểm tra lỗi tìm được lối ra nhưng không có chìa khóa
         p_return(step);
         vonglap();
-        if (check==1) return map_move(),printf(" Da tim thay loi ra!\n"),check = 0,(void)0;
-        }while(map[pY][pX] == map[eY][eX]);
     }
 }
-
+//*********************************************************************************
 void ve_map(int m)
 {
-    //hỗ trợ random
+    //hỗ trợ random ---------------------------
     time_t t;
     srand((unsigned) time(&t));
-
     //khởi tạo @map
     for(int i=0;i<m;i++)
         for(int j=0;j<m; j++) map[i][j]='-';
-
-    // random vị trí của P
+    // random vị trí của P --------------------
     pX= rand()%(m);
     pY= rand()%(m);
     map[pY][pX]='P';
-    // random vị trí K
+    // random vị trí K ------------------------
     do {
         kX= rand()%(m);
         kY= rand()%(m);
     } while (map[kY][kX] != '-');
     map[kY][kX]='K';
-    // random vị trí E
+    // random vị trí E ------------------------
     do {
         eX= rand()%(m);
         eY= rand()%(m);
@@ -214,5 +181,5 @@ int main(void)
     play();
     printf("\n Ban co muon choi man moi? (y/n)\n");
     replay = getch();
-    }while(replay == 'y');
+    }while(replay == 'y'||replay == 'Y');
 }
