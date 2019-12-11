@@ -18,7 +18,7 @@ void p_move(char step) //di chuyển bằng các phím 'w a s d'
 {
     if (step == 'w')
     {
-        if(pY -1 <0) printf("Hay thu di huong khac! \n");
+        if(pY -1 <0) printf("\n\tHay thu di huong khac! \n\n");
         else
         {
             map[pY][pX]='-';
@@ -29,7 +29,7 @@ void p_move(char step) //di chuyển bằng các phím 'w a s d'
 
     if (step == 's')
     {
-        if(pY +1 >3) printf("Hay thu di huong khac! \n");
+        if(pY +1 >3) printf("\n\tHay thu di huong khac! \n\n");
         else
         {
             map[pY][pX]='-';
@@ -40,7 +40,7 @@ void p_move(char step) //di chuyển bằng các phím 'w a s d'
 
     if (step == 'a')
     {
-        if(pX -1<0) printf("Hay thu di huong khac! \n");
+        if(pX -1<0) printf("\n\tHay thu di huong khac! \n\n");
         else
         {
             map[pY][pX]='-';
@@ -51,7 +51,7 @@ void p_move(char step) //di chuyển bằng các phím 'w a s d'
 
     if (step == 'd')
     {
-        if(pX +1 >3) printf("Hay thu di huong khac! \n");
+        if(pX +1 >3) printf("\n\tHay thu di huong khac! \n\n");
         else
         {
             map[pY][pX]='-';
@@ -66,7 +66,7 @@ void check_k() //kiểm tra đã lấy chìa khóa hay chưa
     if (map[pY][pX] == map[kY][kX])
     {
         check=1;
-        printf("Da tim thay chia khoa! \n");
+        printf("\nDa tim thay chia khoa! \n");
 
     }
 }
@@ -134,8 +134,8 @@ void vonglap() //lặp lại khi tìm được lối ra nhưng chưa có chìa k
     do{
 
         map_move();
+        printf(" W(len) S(xuong) A(trai) D(phai)\n");
         check_k();
-        printf("W(len) S(xuong) A(trai) D(phai)\n");
         step = getch();
         printf("\n");
         fflush(stdin);
