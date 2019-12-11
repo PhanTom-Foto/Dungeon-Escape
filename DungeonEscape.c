@@ -11,14 +11,19 @@
 #include <time.h>
 #include <conio.h>
 
-int pX,pY,kX,kY,eX,eY,check=0;
+int pX,pY,kX,kY,eX,eY,check=0,error1=0;
 char step,map[4][4];
+
+void baoloi()
+{
+    printf(" Hay thu di huong khac! \n");
+}
 
 void p_move(char step) //di chuyển bằng các phím 'w a s d'
 {
     if (step == 'w')
     {
-        if(pY -1 <0) printf("\n\tHay thu di huong khac! \n\n");
+        if(pY -1 <0) error1=1;//dùng biến error1 =1 để kiểm tra lỗi ra ngoài map
         else
         {
             map[pY][pX]='-';
@@ -29,7 +34,7 @@ void p_move(char step) //di chuyển bằng các phím 'w a s d'
 
     if (step == 's')
     {
-        if(pY +1 >3) printf("\n\tHay thu di huong khac! \n\n");
+        if(pY +1 >3) error1=1;//dùng biến error1 =1 để kiểm tra lỗi ra ngoài map
         else
         {
             map[pY][pX]='-';
@@ -40,7 +45,7 @@ void p_move(char step) //di chuyển bằng các phím 'w a s d'
 
     if (step == 'a')
     {
-        if(pX -1<0) printf("\n\tHay thu di huong khac! \n\n");
+        if(pX -1<0) error1=1;//dùng biến error1 =1 để kiểm tra lỗi ra ngoài map
         else
         {
             map[pY][pX]='-';
@@ -51,7 +56,7 @@ void p_move(char step) //di chuyển bằng các phím 'w a s d'
 
     if (step == 'd')
     {
-        if(pX +1 >3) printf("\n\tHay thu di huong khac! \n\n");
+        if(pX +1 >3) error1=1;//dùng biến error1 =1 để kiểm tra lỗi ra ngoài map
         else
         {
             map[pY][pX]='-';
@@ -66,7 +71,7 @@ void check_k() //kiểm tra đã lấy chìa khóa hay chưa
     if (map[pY][pX] == map[kY][kX])
     {
         check=1;
-        printf("\nDa tim thay chia khoa! \n");
+        printf("\n Da tim thay chia khoa! \n");
 
     }
 }
@@ -119,7 +124,7 @@ void map_move() // CTC in ra map sau khi @p_move
 {
     for(int i=0;i<4;i++)
     {
-        if(i==0)printf("\tDungeon Escape\n");
+        if(i==0)printf("\n\tDungeon Escape\n");
         if(i==0)printf("\t==============\n");
         printf("\t|  ");
         for(int j=0;j<4; j++) printf("%c ",map[i][j]);
@@ -135,21 +140,41 @@ void vonglap() //lặp lại khi tìm được lối ra nhưng chưa có chìa k
 
         map_move();
         printf(" W(len) S(xuong) A(trai) D(phai)\n");
+        if (error1 == 1) printf("\n Hay thu di huong khac! \n");
+        if (error1 == 2) printf("\n Tim thay loi ra nhung chua co chia khoa\n");
         check_k();
         step = getch();
         printf("\n");
         fflush(stdin);
+        error1=0;
         system("cls");
         p_move(step);
     }while(map[pY][pX] != map[eY][eX]);
 }
 
+void play()
+{
+    vonglap();
+    if(check==1)
+    {
+        map_move();
+        printf(" Da tim thay loi ra!\n");
+    } else {
+        do{
+        error1 = 2;//dùng biến error1 = 2 để kiểm tra lỗi tìm được lối ra nhưng không có chìa khóa
+        p_return(step);
+        vonglap();
+        if (check==1) return map_move(),printf(" Da tim thay loi ra!\n"),(void)0;
+        }while(map[pY][pX] == map[eY][eX]);
+    }
+}
 //******************************************************//
 //  Created by DonaldTram on 12/7/19.                  //
 //  Copyright © 2019 DonaldTr4n. All rights reserved. //
 //***************************************************//
 int main(void)
 {
+    system("cls");
     int m=4;
     //hỗ trợ random
     time_t t;
@@ -177,14 +202,6 @@ int main(void)
     map[eY][eX]='E';
 
     // chạy trương trình
-    vonglap();
-    if(check==1)
-    {
-        map_move();
-        printf("Da tim thay loi ra!\n");
-    } else {
-        printf("Tim thay loi ra nhung chua co chia khoa\n");
-        p_return(step);
-        vonglap();
-    }
+    play();
+
 }
